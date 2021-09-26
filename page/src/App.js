@@ -5,11 +5,15 @@ import Pagination from './components/Pagination';
 
 const App = () => {
 
+  // 서버에서 불러온 데이터
   const [posts, setPosts] = useState([]);
+
+  // 로딩 중을 나타내는 true/false
   const [loading, setLoading] = useState(false);
 
   // 현재 페이지
   const [currentPage, setCurrentPage] = useState(1);
+  
   // 한 페이지 당 게시물 개수
   const [postsPerPage, setPostsPerPage] = useState(10);
 
@@ -31,18 +35,24 @@ const App = () => {
   console.log(posts); 
 
   // Get current Posts
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexofFirstPost =  indexOfLastPost - postsPerPage; 
-  const currentPosts = posts.slice(indexofFirstPost, indexOfLastPost); 
+  const indexOfLastPost = currentPage * postsPerPage; // 1 * 10
+  const indexOfFirstPost =  indexOfLastPost - postsPerPage; // 10 - 10
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
-  // Change Page
+  console.log('indexOfLastPost',indexOfLastPost,'indexofFirstPost',indexOfFirstPost,'currentPosts',currentPosts); 
+  // indexOfLastPost 10 indexofFirstPost 0 
+
+
+  // Change Page -> Pagination Component에 Props로 넘겨준다. 
   const paginate = (pageNumber) => setCurrentPage(pageNumber); 
 
   return (
     <div className="container mt-5">
       <h1 className='text-primary mb-3'>My App</h1>
-      <Posts posts={currentPosts} loading ={loading}/>
-      <Pagination postsPerPage={postsPerPage} totalPosts={posts.length} paginate={paginate}></Pagination>
+        {/* 내용을 띄워주는 공간 */}
+        <Posts posts={currentPosts} loading ={loading}/>
+        {/* 페이지네이션 */}
+        <Pagination postsPerPage={postsPerPage} totalPosts={posts.length} paginate={paginate}></Pagination>
     </div>
   );
 }
